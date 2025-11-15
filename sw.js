@@ -3,14 +3,7 @@ const URLS_TO_CACHE = [
     '/', 
     '/index.php',
     '/?c=Login',
-    '/?c=Landing',    
-
-    // Archivos estáticos
-    'assets/landing/css/styles.css',    
-    'assets/landing/img/logo.png',
-
-    // Evitar error por favicon
-    '/favicon.ico'
+    '/?c=Landing'
 ];
 
 // Instalación: cachea todos los archivos
