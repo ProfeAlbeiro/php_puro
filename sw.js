@@ -7,8 +7,7 @@ const URLS_TO_CACHE = [
     '/?c=Productos',
 
     // Archivos estáticos
-    '/css/style.css',
-    '/js/app.js',
+    '/css/styles.css',    
     '/img/logo.png',
 
     // Evitar error por favicon
