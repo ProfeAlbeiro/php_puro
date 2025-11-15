@@ -1,9 +1,12 @@
 // asignar un nombre y versión al cache
 const CACHE_NAME = 'v1_cache_php_limpio';
 const urlsToCache = [
-  '/',
+  '/',  
   '/assets/landing/js/custom.js',
-  '/assets/landing/css/styles.css'
+  '/assets/landing/js/templatemo.js',
+  '/assets/landing/js/bootstrap.bundle.min.js',
+  '/assets/landing/css/bootstrap.min.css',
+  '/assets/landing/css/templatemo.css'
 ];
 
 // instalar
@@ -34,10 +37,12 @@ self.addEventListener('activate', e => {
 });
 
 // fetch
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(res => {
-      return res || fetch(e.request);
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      return cached || fetch(event.request).catch(() => {
+        return caches.match('/'); // mostrar al menos la página principal offline
+      });
     })
   );
 });
