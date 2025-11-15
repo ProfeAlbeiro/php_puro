@@ -3,7 +3,7 @@
     class Logout{
         public function main(){
             session_destroy();
-            header("Location:?");
+            header("Location:/");
         }
     }
 ?>

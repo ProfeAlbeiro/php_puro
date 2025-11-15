@@ -1,16 +1,13 @@
 const CACHE_NAME = 'app-v1';
 const URLS_TO_CACHE = [
-    
-    // Archivos dinámicos
     '/', 
-    '/?', 
     '/index.php',
     '/?c=Login',
     '/?c=Landing',    
 
     // Archivos estáticos
-    '/css/styles.css',    
-    '/img/logo.png',
+    'assets/landing/css/styles.css',    
+    'assets/landing/img/logo.png',
 
     // Evitar error por favicon
     '/favicon.ico'
