@@ -1,65 +1,56 @@
-const CACHE_NAME = "app-cache-v1";
+const CACHE_NAME = 'app-v1';
+const URLS_TO_CACHE = [
+    '/', 
+    '/index.php',
+    '/?c=Login',
+    '/?c=Landing',
+    '/?c=Productos',
 
-const urlsToCache = [
-  "/", // home
-  "/offline.html",
+    // Archivos estáticos
+    '/css/style.css',
+    '/js/app.js',
+    '/img/logo.png',
 
-  // CSS
-  "/assets/landing/css/bootstrap.min.css",
-  "/assets/landing/css/templatemo.css",
-
-  // JS
-  "/assets/landing/js/bootstrap.bundle.min.js",
-  "/assets/landing/js/templatemo.js",
-  "/assets/landing/js/custom.js",
-
-  // IMAGES
-  "/assets/landing/img/banner_img_01.jpg",
-  "/assets/landing/img/banner_img_02.jpg",
-  "/assets/landing/img/banner_img_03.jpg",
-  "/assets/landing/img/category_img_01.jpg",
-  "/assets/landing/img/category_img_02.jpg",
-  "/assets/landing/img/category_img_03.jpg",
+    // Evitar error por favicon
+    '/favicon.ico'
 ];
 
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache);
-    })
-  );
-  self.skipWaiting();
-});
-
-self.addEventListener("activate", event => {
-  event.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) return caches.delete(key);
+// Instalación: cachea todos los archivos
+self.addEventListener('install', e => {
+    e.waitUntil(
+        caches.open(CACHE_NAME).then(cache => {
+            return cache.addAll(URLS_TO_CACHE).catch(err => {
+                console.warn('Error cacheando:', err);
+            });
         })
-      );
-    })
-  );
-  self.clients.claim();
+    );
+    self.skipWaiting();
 });
 
-self.addEventListener("fetch", event => {
-  const req = event.request;
+// Activación
+self.addEventListener('activate', e => {
+    e.waitUntil(clients.claim());
+});
 
-  // --- 1. NAVIGATION FALLBACK ---
-  // Si el usuario visita ?c=Login o cualquier ruta PHP
-  if (req.mode === "navigate") {
-    event.respondWith(
-      fetch(req).catch(() => caches.match("/offline.html"))
+// Fetch: estrategia network-first con fallback a cache
+self.addEventListener('fetch', e => {
+    e.respondWith(
+        fetch(e.request)
+            .then(res => {
+                const clone = res.clone();
+                caches.open(CACHE_NAME).then(cache => {
+                    cache.put(e.request, clone);
+                });
+                return res;
+            })
+            .catch(() => {
+                // Intentar servir desde cache
+                return caches.match(e.request).then(res => {
+                    if (res) return res;
+
+                    // Último fallback: regresar index.php
+                    return caches.match('/index.php');
+                });
+            })
     );
-    return;
-  }
-
-  // --- 2. CACHE-FIRST PARA ARCHIVOS ESTÁTICOS ---
-  event.respondWith(
-    caches.match(req).then(cacheRes => {
-      return cacheRes || fetch(req);
-    })
-  );
 });
