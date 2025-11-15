@@ -10,8 +10,7 @@
     <meta name="MobileOptimized" content="width">
     <meta name="HandheldFriendly" content="true">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="shortcut icon" type="image/png" href="./img/ProgramadorFitness.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">    
     <link rel="manifest" href="./manifest.json">
 
     <link rel="apple-touch-icon" href="assets/landing/img/profealbeiro.png">
