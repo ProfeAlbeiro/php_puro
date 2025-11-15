@@ -2,6 +2,7 @@
 //asignar un nombre y versión al cache
 const CACHE_NAME = 'v1_cache_php_limpio',
   urlsToCache = [
+    './',
     './index.php',
     './views/company/index.view.php'    
   ]
