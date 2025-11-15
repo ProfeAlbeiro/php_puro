@@ -1,8 +1,9 @@
 ;
 //asignar un nombre y versión al cache
-const CACHE_NAME = 'v1_cache_programador_fitness',
+const CACHE_NAME = 'v1_cache_php_limpio',
   urlsToCache = [
-    './',
+    './index.php',
+    './views/company/index.view.php'
     // 'https://fonts.googleapis.com/css?family=Raleway:400,700',
     // 'https://fonts.gstatic.com/s/raleway/v12/1Ptrg8zYS_SKggPNwJYtWqZPAA.woff2',
     // 'https://use.fontawesome.com/releases/v5.0.7/css/all.css',
