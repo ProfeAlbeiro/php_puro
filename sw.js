@@ -1,48 +1,62 @@
-// asignar un nombre y versión al cache
-const CACHE_NAME = 'v1_cache_php_limpio';
+const CACHE_NAME = "v4_cache_php_limpio";
+
 const urlsToCache = [
-  '/',  
-  '/assets/landing/js/custom.js',
-  '/assets/landing/js/templatemo.js',
-  '/assets/landing/js/bootstrap.bundle.min.js',
-  '/assets/landing/css/bootstrap.min.css',
-  '/assets/landing/css/templatemo.css'
+  "/",
+  "/index.php",
+  "/assets/landing/css/bootstrap.min.css",
+  "/assets/landing/css/templatemo.css",
+  "/assets/landing/js/bootstrap.bundle.min.js",
+  "/assets/landing/js/custom.js",
+  "/assets/landing/js/templatemo.js",
 ];
 
-// instalar
-self.addEventListener('install', e => {
-  e.waitUntil(
+// INSTALL
+self.addEventListener("install", event => {
+  event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(urlsToCache))
       .then(() => self.skipWaiting())
   );
 });
 
-// activar
-self.addEventListener('activate', e => {
-  const cacheWhitelist = [CACHE_NAME];
-
-  e.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (!cacheWhitelist.includes(cacheName)) {
-            return caches.delete(cacheName);
-          }
+// ACTIVATE
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(keys => 
+      Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) return caches.delete(key);
         })
-      );
-    })
-    .then(() => self.clients.claim())
+      )
+    )
   );
+  self.clients.claim();
 });
 
-// fetch
-self.addEventListener('fetch', event => {
+// FETCH
+self.addEventListener("fetch", event => {
+  const req = event.request;
+
+  // SI ES NAVEGACIÓN → entregar index.php offline
+  if (req.mode === "navigate") {
+    event.respondWith(
+      fetch(req).catch(() => {
+        return caches.match("/index.php");
+      })
+    );
+    return;
+  }
+
+  // PARA DEMÁS ARCHIVOS
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      return cached || fetch(event.request).catch(() => {
-        return caches.match('/'); // mostrar al menos la página principal offline
-      });
-    })
+    caches.match(req).then(cached =>
+      cached ||
+      fetch(req).then(resp => {
+        return caches.open(CACHE_NAME).then(cache => {
+          cache.put(req, resp.clone());
+          return resp;
+        });
+      })
+    )
   );
 });
