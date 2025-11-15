@@ -99,6 +99,7 @@
     <script src="assets/landing/js/bootstrap.bundle.min.js"></script>
     <script src="assets/landing/js/templatemo.js"></script>
     <script src="assets/landing/js/custom.js"></script>
+    <script src="assets/landing/js/scripts.js"></script>
     <!-- End Script -->
 </body>
 

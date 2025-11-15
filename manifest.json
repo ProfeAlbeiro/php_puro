@@ -3,7 +3,7 @@
   "short_name": "Profe_Albeiro",
   "description": "Bienvenid@s al proyecto Profe_Albeiro",
   "background_color": "#2B2B2B",
-  "theme_color": "#238636",
+  "theme_color": "#162644",
   "orientation": "portrait",
   "display": "standalone",
   "start_url": "./?utm_source=web_app_manifest",
