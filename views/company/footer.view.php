@@ -99,7 +99,19 @@
     <script src="assets/landing/js/bootstrap.bundle.min.js"></script>
     <script src="assets/landing/js/templatemo.js"></script>
     <script src="assets/landing/js/custom.js"></script>
-    <script src="assets/landing/js/scripts.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("/sw.js")
+            .then(function (reg) {
+                console.log("SW registrado correctamente:", reg);
+            })
+            .catch(function (err) {
+                console.error("Error al registrar SW:", err);
+            });
+        });
+      }
+    </script>
     <!-- End Script -->
 </body>
 
