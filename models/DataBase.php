@@ -26,7 +26,5 @@
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 return $pdo;
         }
-        
-        ## https://php-limpio-fpeccygaf2czhjbg.canadacentral-01.azurewebsites.net/
 	}
 ?>
