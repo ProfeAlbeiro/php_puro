@@ -17,8 +17,9 @@
             $hostname = "serverphplimpio.mysql.database.azure.com";
             $port = "3306";
             $database = "database_php";
-            $username = "admin_database";
-            $password = getenv('DB_PASSWORD');
+            $usernam = "admin_database";
+            $password = "Contradb.";
+            // $password = getenv('DB_PASSWORD');
             $options = array(
                 PDO::MYSQL_ATTR_SSL_CA => 'assets/database/DigiCertGlobalRootG2.crt.pem'
             );
