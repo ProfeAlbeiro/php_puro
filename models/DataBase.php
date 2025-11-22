@@ -14,11 +14,11 @@
         
         ## Conexión Azure
         public static function connection(){
-            $hostname = "server-app-web-php.mysql.database.azure.com";
+            $hostname = "serverphplimpio.mysql.database.azure.com";
             $port = "3306";
             $database = "database_php";
-            $username = "admin_db_php";
-            $password = "Admin123";
+            $username = "admin_database";
+            $password = "Contradb.";
             $options = array(
                 PDO::MYSQL_ATTR_SSL_CA => 'assets/database/DigiCertGlobalRootG2.crt.pem'
             );
